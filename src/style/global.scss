@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Allura';
+    src: url(../font/allura.ttf);
+}
+.content {
+    max-width: 80%;
+    min-width: 400px;
+    margin: 0 auto;
+    .card-body {
+        background: #fff;
+    }
+}
+.title {
+    font-family: 'Allura';
+    font-size: 100px;
+    color: darkcyan;
+    font-weight: 600;
+    text-align: center;
+}
