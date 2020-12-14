@@ -17,7 +17,7 @@ function Todo() {
     const [loading, setLoading] = useState(false)
     useEffect(() => {
         getTodo(id);
-    }, [])
+    }, [id])
 
     function getTodo(id: string) {
         setLoading(true);
@@ -37,7 +37,7 @@ function Todo() {
 
     function changeStatus(status: boolean) {
         axios.put(`${URL.TODOS}/${id}`, {...todo, isFinished: status}).then((response) => {
-            if(response.status == 200) {
+            if(response.status === 200) {
                 setTodo(response.data)
             }
         })
@@ -45,7 +45,7 @@ function Todo() {
 
     function saveChangeTodo(newTodo: INewTodo) {
         axios.put(`${URL.TODOS}/${id}`, newTodo).then((response: AxiosResponse) => {
-            if(response.status == 200) {
+            if(response.status === 200) {
                 setTodo(response.data)
             }
             handleCloseModal();
@@ -65,12 +65,17 @@ function Todo() {
     return (
         <div className='todo'>
             <Arrow />
-                    <ModalAddTodo 
-                        show = {showModal}
-                        todo = {todo}
-                        handleClose = {handleCloseModal}
-                        handleSave = {saveChangeTodo}
-                    />
+                    {
+                        todo 
+                        ? <ModalAddTodo 
+                            titleModal = 'Edit to do'
+                            show = {showModal}
+                            todo = {todo}
+                            handleClose = {handleCloseModal}
+                            handleSave = {saveChangeTodo}
+                        />
+                        : ''
+                    }
                     <Header title={todo ? todo.title : '...'}/>
                     <Container>
                         {   

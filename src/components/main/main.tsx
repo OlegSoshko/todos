@@ -91,6 +91,7 @@ function Main() {
     return (
         <div className='main'>
             <ModalAddTodo 
+                titleModal = 'Add new to do'
                 show = {showModalAddTodo}
                 handleClose = {handleCloseModalAddTodo}
                 handleSave = {addTodo}

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { IModalAddTodoProps } from './types';
 
 function ModalAddTodo(props: IModalAddTodoProps) {
     const {
         todo,
+        titleModal = '...',
         show,
         handleClose,
         handleSave,
@@ -45,7 +46,7 @@ function ModalAddTodo(props: IModalAddTodoProps) {
     return (
         <Modal show={show} onHide={handleCloseModal} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Add new to do</Modal.Title>
+                <Modal.Title>{titleModal}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <Form>
