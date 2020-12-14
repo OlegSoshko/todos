@@ -1,17 +1,21 @@
 import React from 'react';
 import './header.scss';
 import { Jumbotron } from 'react-bootstrap';
+import { IHeaderProps } from './types';
 
-function Header () {
+function Header (props: IHeaderProps) {
+    const {
+        title = '',
+    } = props;
 
     return (
-        <Jumbotron>
-            <div className='content'>
+        <div className='header'>
+            <Jumbotron>
                 <h1 className='title'>
-                    Hi! It's your to do list
+                    { title }
                 </h1>
-            </div>
-        </Jumbotron>
+            </Jumbotron>
+        </div>
     )
 }
 
