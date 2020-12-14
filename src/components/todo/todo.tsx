@@ -9,6 +9,7 @@ import Header from '../header';
 import URL from '../../utils/urlList';
 import Arrow from '../arrowback';
 import {  ModalAddTodo } from '../modal';
+import moment from 'moment';
 
 function Todo() {
     const { id } = useParams<ITodoProps>();
@@ -114,7 +115,7 @@ function Todo() {
                                 </Row>
                                 <Row>
                                     <Col>Time Create:</Col>
-                                    <Col xs={10}>{todo.createdAt}</Col>
+                                    <Col xs={10}>{moment(todo.createdAt).format('DD MMMM YYYY HH:mm')}</Col>
                                 </Row>
                                 <Row>
                                     <Col>Finished:</Col>
