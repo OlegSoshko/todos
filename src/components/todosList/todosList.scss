@@ -38,6 +38,11 @@
                 margin-right: 10px;
             }
         }
+        .col-10 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
     .done {
         background: rgb(125, 191, 125);

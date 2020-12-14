@@ -19,7 +19,7 @@ function TodosList(props: ITodosProps) {
             {   
                 (todos.length !== 0) ?
                 todos.map((item: ITodo, index: number) => (
-                        <Row className={item.isFinished ? 'done' : ''} onClick={() => {goto(item.id)}}>
+                        <Row className={item.isFinished ? 'done' : ''} onClick={() => {goto(item.id)}} title={`${item.title}`}>
                             <Col xs={10}>{index + 1}. {item.title}</Col>
                             <Col>
                                 {
