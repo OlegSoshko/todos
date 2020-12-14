@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import './modal.scss';
+import { Button, Modal } from 'react-bootstrap';
 import { IModalDeleteTodo } from './types';
 
 function ModalAddTodo(props: IModalDeleteTodo) {
@@ -17,7 +18,7 @@ function ModalAddTodo(props: IModalDeleteTodo) {
                 <Modal.Title>Confirm delete</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Do you really want to delete <a href={`/todos/${id}`}>{title}</a>?
+                Do you really want to delete <a href={`/todos/${id}`} className='modal-link'>{title}</a>?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={handleOk}>Ok</Button>
