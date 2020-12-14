@@ -13,10 +13,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
+        <Route path="/todos/:id" children={<Todo />} />
         <Route path="/">
           <Main />
         </Route>
-        <Route path="/todos/:id" children={<Todo />} />
       </Switch>
     </Router>
   </React.StrictMode>,
