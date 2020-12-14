@@ -2,6 +2,15 @@
     font-family: 'Allura';
     src: url(../font/allura.ttf);
 }
+html,
+body,
+#root {
+    height: 100%;
+}
+#root {
+    background-image: url(../img/background.jpg);
+    overflow: auto;
+}
 .content {
     max-width: 80%;
     min-width: 400px;
