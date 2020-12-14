@@ -1,54 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import React from 'react';
 import './todosList.scss';
-import { ITodos, ITodo, IResponseDeleteTodo } from './types';
-import URL from '../../utils/urlList';
-import {Button, Container, Row, Col} from 'react-bootstrap';
+import {  ITodosProps } from './types';
+import { ITodo } from '../../types/global';
+import {Button, Row, Col} from 'react-bootstrap';
 
 
-function TodosList () {
-    const [todos, setTodos] = useState<ITodos>({items: [], total: 0})
-    const [error, setError] = useState(null);
-    useEffect(() => {
-        getTodos();
-    }, [])
-
-    function getTodos() {
-        axios.get(URL.GET_TODOS).then((response: AxiosResponse<ITodos>) => {
-            setTodos(response.data);
-        }).catch((response) => {
-            debugger
-            setError(response);
-        })
+function TodosList(props: ITodosProps) {
+    const {
+        finishTodo,
+        deleteTodo,
+        todos = []
+    } = props;
+    function goto(id: string) {
+        document.location.href = `/todos/${id}`
     }
-
-    function deleteTodo(id: string) {
-        axios.delete(`${URL.DELETE_TODO}/${id}`).then((response: AxiosResponse<IResponseDeleteTodo>) => {
-            if(response.data.status === 'Success') {
-                getTodos()
-            }
-        })
-    }
-
     return (
         <div className='todo-list'>
-            <Container>
-                {
-                    todos.items.map((item: ITodo, index: number) => (
-                            <Row>
-                                <Col>
-                                    <input type='checkbox' />
-                                </Col>
-                                <Col xs={10}>{item.title}</Col>
-                                <Col>
-                                    <Button variant="outline-danger" onClick={() => {deleteTodo(item.id)}}>
-                                        X
+            {   
+                (todos.length != 0) ?
+                todos.map((item: ITodo, index: number) => (
+                        <Row className={item.isFinished ? 'done' : ''} onClick={() => {goto(item.id)}}>
+                            <Col xs={10}>{index + 1}. {item.title}</Col>
+                            <Col>
+                                {
+                                    !item.isFinished ? 
+                                    <Button variant="outline-success" onClick={(event) => {
+                                            event.stopPropagation()
+                                            finishTodo(item.id)
+                                        }}
+                                    >
+                                        &#10003;
                                     </Button>
-                                </Col>
-                            </Row>
-                    ))
-                }
-            </Container>
+                                    : ''
+                                }
+                                <Button variant="outline-danger" onClick={(event) => {
+                                        event.stopPropagation()
+                                        deleteTodo(item.id, item.title)
+                                    }}
+                                >
+                                    X
+                                </Button>
+                            </Col>
+                        </Row>
+                ))
+                : <span>No items...</span>
+            }
         </div>
     )
 }

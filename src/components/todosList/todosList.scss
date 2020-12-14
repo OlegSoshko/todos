@@ -1,11 +1,46 @@
 .todo-list {
+    height: 100%;
+    font-size: 20px;
+    font-style: italic;
     .row {
-        align-items: center;
-        .col {
-            .btn {
-                line-height: 20px;
-                padding: 0 5px;
+        padding: 10px 0;
+        border-radius: 5px;
+        margin: 10px 0;
+        box-shadow: 0 0 8px rgba(0,0,0, 0.3);
+        background: #fff;
+        cursor: pointer;
+        color: rgba(0, 139, 139, 1);
+        &:hover {
+            background: rgb(225, 212, 212);
+            .col {
+                .btn-outline-danger,
+                .btn-outline-success {
+                    visibility: visible;
+                }
             }
         }
+        &:first-child {
+            .btn {
+                line-height: inherit;
+                padding: 2px 20px;
+            }
+        }
+        .col {
+            text-align: end;
+            .btn-outline-danger,
+            .btn-outline-success {
+                line-height: 20px;
+                padding: 0 5px;
+                visibility: hidden;
+                border-radius: 50%;
+            }
+            .btn-outline-success {
+                margin-right: 10px;
+            }
+        }
+    }
+    .done {
+        background: rgb(125, 191, 125);
+        text-decoration: line-through;
     }
 }

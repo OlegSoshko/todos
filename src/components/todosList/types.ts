@@ -1,17 +1,17 @@
-export interface ITodos {
-    items: ITodo[];
-    total: number;
-}
-
-export interface ITodo {
-    createdAt: string;
-    description: string;
-    id: string;
-    isFinished: boolean;
-    title: string;
+import { ITodo } from '../../types/global';
+export interface ITodosProps {
+    handleShowModalAddTodos?: () => void;
+    finishTodo: (id: string) => void;
+    deleteTodo: (id: string, title: string) => void;
+    todos?: ITodo[];
 }
 
 export interface IResponseDeleteTodo {
     status: string;
     message: string;
+}
+
+export interface IFilter {
+    isFinished?: boolean;
+    isNotFinished?: boolean;
 }
