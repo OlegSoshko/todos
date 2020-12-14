@@ -1,2 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import "../../style/global.scss";
+
+.main {
+    .container {
+        padding-top: 20px;
+    }
+}
