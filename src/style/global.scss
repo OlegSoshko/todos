@@ -10,6 +10,7 @@ body,
 #root {
     background-image: url(../img/background.jpg);
     overflow: auto;
+    min-width: 320px;
 }
 .content {
     max-width: 80%;
@@ -32,5 +33,21 @@ body,
     align-items: center;
     .spinner-border {
         margin-right: 10px;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .title {
+        font-size: 80px;
+    }
+}
+@media only screen and (max-device-width : 679px) {
+    .title {
+        font-size: 60px;
+    }
+}
+
+@media only screen and (max-device-width : 480px) {
+    .title {
+        font-size: 38px;
     }
 }
