@@ -4,7 +4,7 @@ import { ITodoProps } from './types';
 import { ITodo, IResponseDeleteTodo, INewTodo } from '../../types/global';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
-import { Container, Row, Col, Button, ToggleButton, ButtonGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, ToggleButton, ButtonGroup, Spinner } from 'react-bootstrap';
 import Header from '../header';
 import URL from '../../utils/urlList';
 import Arrow from '../arrowback';
@@ -14,13 +14,16 @@ function Todo() {
     const { id } = useParams<ITodoProps>();
     const [todo, setTodo] = useState<ITodo>();
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         getTodo(id);
     }, [])
 
     function getTodo(id: string) {
+        setLoading(true);
         axios.get(`${URL.TODOS}/${id}`).then((response: AxiosResponse)=>{
             setTodo(response.data);
+            setLoading(false);
         })
     }
 
@@ -62,61 +65,63 @@ function Todo() {
     return (
         <div className='todo'>
             <Arrow />
-            {
-                todo ?
-                <>
                     <ModalAddTodo 
                         show = {showModal}
                         todo = {todo}
                         handleClose = {handleCloseModal}
                         handleSave = {saveChangeTodo}
                     />
-                    <Header title={todo.title}/>
+                    <Header title={todo ? todo.title : '...'}/>
                     <Container>
-                        <Row>
-                            <Col>
-                                <Button variant="primary" onClick={handleOpenModal} disabled = {todo.isFinished}>Edit</Button>
-                                <ButtonGroup toggle>
-                                <ToggleButton
-                                    type="radio"
-                                    variant="success"
-                                    name="radio"
-                                    value={true}
-                                    checked={todo.isFinished}
-                                    onChange={(e) => {changeStatus(true)}}
-                                >
-                                    Finished
-                                </ToggleButton>
-                                <ToggleButton
-                                    type="radio"
-                                    variant="warning"
-                                    name="radio"
-                                    value={false}
-                                    checked={!todo.isFinished}
-                                    onChange={(e) => {changeStatus(false)}}
-                                >
-                                    Not finished
-                                </ToggleButton>
-                                </ButtonGroup>
-                                <Button variant="danger" onClick={deleteTodo}>Delete</Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>Time Create:</Col>
-                            <Col xs={10}>{todo.createdAt}</Col>
-                        </Row>
-                        <Row>
-                            <Col>Finished:</Col>
-                            <Col xs={10}>{todo.isFinished ? <span className='done'>&#10003;</span> : <span className='waiting'>waiting...</span>}</Col>
-                        </Row>
-                        <Row>
-                            <Col>Description:</Col>
-                            <Col xs={10}><span>{todo.description}</span></Col>
-                        </Row>
+                        {   
+                            loading 
+                            ? <div className='loading'><Spinner animation="border" variant="primary" /> Loading...</div>
+                            : !todo 
+                            ? ''
+                            : <>
+                                <Row>
+                                    <Col>
+                                        <Button variant="primary" onClick={handleOpenModal} disabled = {todo.isFinished}>Edit</Button>
+                                        <ButtonGroup toggle>
+                                        <ToggleButton
+                                            type="radio"
+                                            variant="success"
+                                            name="radio"
+                                            value={true}
+                                            checked={todo.isFinished}
+                                            onChange={(e) => {changeStatus(true)}}
+                                        >
+                                            Finished
+                                        </ToggleButton>
+                                        <ToggleButton
+                                            type="radio"
+                                            variant="warning"
+                                            name="radio"
+                                            value={false}
+                                            checked={!todo.isFinished}
+                                            onChange={(e) => {changeStatus(false)}}
+                                        >
+                                            Not finished
+                                        </ToggleButton>
+                                        </ButtonGroup>
+                                        <Button variant="danger" onClick={deleteTodo}>Delete</Button>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>Time Create:</Col>
+                                    <Col xs={10}>{todo.createdAt}</Col>
+                                </Row>
+                                <Row>
+                                    <Col>Finished:</Col>
+                                    <Col xs={10}>{todo.isFinished ? <span className='done'>&#10003;</span> : <span className='waiting'>waiting...</span>}</Col>
+                                </Row>
+                                <Row>
+                                    <Col>Description:</Col>
+                                    <Col xs={10}><span>{todo.description}</span></Col>
+                                </Row>
+                              </>
+                        }
                     </Container>
-                </>
-                : ''
-            }
         </div>
     )
 }

@@ -8,10 +8,11 @@ import axios, { AxiosResponse } from 'axios';
 import URL from '../../utils/urlList';
 import { ITodo, ITodos, IResponseDeleteTodo, INewTodo } from '../../types/global';
 import { IFilter } from './types';
-import { Container } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 
 function Main() {
     const [showModalAddTodo, setShowModalAddTodo] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [modalDeleteTodo, setModalDeleteTodo] = useState({show: false, id: '', title: ''});
     const [todos, setTodos] = useState<ITodos>({items: [], total: 0})
     const [filter, setFilter ] = useState<IFilter>({isFinished: false, isNotFinished: true});
@@ -43,10 +44,12 @@ function Main() {
     }
 
     function getTodos() {
+        setLoading(true);
         const params = getParams();
         const url = params ? `${URL.TODOS}?${params}` : URL.TODOS;
         axios.get(url).then((response: AxiosResponse<ITodos>) => {
             setTodos(response.data);
+            setLoading(false);
         })
     }
 
@@ -94,25 +97,31 @@ function Main() {
             />
             <ModalDeleteTodo 
                 show = {modalDeleteTodo.show}
-                title = {modalDeleteTodo. title}
+                title = {modalDeleteTodo.title}
                 id = {modalDeleteTodo.id}
                 handleClose = {handleCloseModalDeleteTodo}
                 handleOk = {deleteTodo}
             />
             <Header title={`Hi! It's your to do list.`}/>
             <Container>
-                <PanelTodo 
-                    changeFinishedFilter = {changeFinishedFilter}
-                    changeNotFinishedFilter = {changeNotFinishedFilter}
-                    filter = {filter}
-                    handleShowModalAddTodos = {handleShowModalAddTodo}
-        
-                />
-                <TodoList 
-                    finishTodo = {finishTodo}
-                    deleteTodo = {handleShowModalDeleteTodo}
-                    todos = {todos.items}
-                />
+            {
+                loading 
+                ? <div className='loading'><Spinner animation="border" variant="primary" /> Loading...</div>
+                : <>
+                    <PanelTodo 
+                        changeFinishedFilter = {changeFinishedFilter}
+                        changeNotFinishedFilter = {changeNotFinishedFilter}
+                        filter = {filter}
+                        handleShowModalAddTodos = {handleShowModalAddTodo}
+            
+                    />
+                    <TodoList 
+                        finishTodo = {finishTodo}
+                        deleteTodo = {handleShowModalDeleteTodo}
+                        todos = {todos.items}
+                    />
+                </>
+            }
             </Container>
         </div>
     )
